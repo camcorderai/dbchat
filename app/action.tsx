@@ -98,6 +98,30 @@ export type QueryResult = {
   results: (number | string)[][];
 };
 
+/* 
+   Get tables and column names and types from the database
+*/
+async function getTables() {
+  try {
+    const client = await sql.connect()
+    
+    // Exclude VerificationToken table
+    const tables =
+      await client.sql`select t.table_name, array_agg(c.column_name || ': ' || c.data_type::text) as columns from information_schema.tables t inner join information_schema.columns c on t.table_name = c.table_name where t.table_schema = 'public' and t.table_type= 'BASE TABLE' and c.table_schema = 'public' and t.table_name <> 'VerificationToken' group by t.table_name;`
+    client.release()
+    if (tables && tables.rows && tables.rows.length > 0) {
+      return tables.rows;
+    }
+    else {
+      return []
+    }
+  }
+  catch (e) {
+    console.log("e", e)
+    return []
+  }
+}
+
 async function submitUserMessage(content: string) {
   "use server";
   const events = await fetchAllEventsWithProperties({
@@ -172,9 +196,12 @@ async function submitUserMessage(content: string) {
   const like = "%" + userId + "%"
   try {
     const client = await sql.connect()
-    const { rows } = await client.sql`SELECT * FROM public."User" WHERE id LIKE ${like};`
+    const tables =
+      await getTables()
+    const data = await client.sql`SELECT * FROM public."User" WHERE id LIKE ${like};`
     client.release()
-    console.log("rows", rows)
+    console.log("available tables\n", tables)
+    console.log("data\n", data.rows)
   }
   catch (e) {
     console.log("e", e)

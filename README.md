@@ -14,7 +14,9 @@
 Create a .env file with the following:
 ```env
 OPENAI_API_KEY="sk-"
-POSTGRES_URL="postgres://USER:PASSWORD@POSTGRES_HOST:5432/DB_NAME?sslmode=require"
+DATABASE_URL="postgres://USER:PASSWORD@POSTGRES_HOST:5432/DB_NAME?sslmode=require"
+USERNAME="admin"
+USER_PASSWORD="&gK4@#j!1!E#O"
 ```
 
 Then run

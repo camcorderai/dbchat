@@ -48,15 +48,13 @@ async function AutoSuggested() {
   //   suggestedQueries.choices.at(0)?.message?.content ?? ""
   // ).split("\n");
 
-  const completed = ["Show me the number of users who have signed up in the last 30 days.",
-  "How many page views did we have in the last 7 days?",
-  "What are the most common browsers used by our users?",
-  "Show me the distribution of users based on their device type."
+  const completed = ["Total assets created in last 180 days.",
+  "Assets created by week in last 90 days."
   ]
 
   // put the results into 4 evenly sized buttons, aligned in a 2x2 grid
   const buttons = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < completed.length; i++) {
     buttons.push(completed[i]);
   }
   return buttons;

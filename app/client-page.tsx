@@ -200,7 +200,6 @@ export function ClientPage(props: { zeroState: string[] }) {
                 </div>
               </div>
             </form>
-            <FooterText className="hidden sm:block" />
           </div>
         </div>
       </div>
